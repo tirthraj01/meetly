@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -23,7 +18,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  username      String?   @unique // Used for public link: yourapp.com/[username]
+  username      String?   @unique
   accounts      Account[]
   sessions      Session[]
 
@@ -75,19 +70,21 @@ model VerificationToken {
 // ==========================================
 
 model EventType {
-  id          String    @id @default(cuid())
+  id          String  @id @default(cuid())
   userId      String
   title       String
   slug        String
   description String?
-  duration    Int
-  isActive    Boolean   @default(true)
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  booking     Booking[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  duration    Int // in minutes
+  isActive    Boolean @default(true)
 
-  @@unique([userId, slug]) // A user cannot have two event types with the same slug
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, slug])
 }
 
 enum DayOfWeek {
@@ -104,12 +101,13 @@ model Availability {
   id        String    @id @default(cuid())
   userId    String
   dayOfWeek DayOfWeek
-  startTime String
-  endTime   String
+  startTime String // "HH:mm"
+  endTime   String // "HH:mm"
   isActive  Boolean   @default(true)
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, dayOfWeek]) // One availability record per day per user
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, dayOfWeek])
 }
 
 enum BookingStatus {
@@ -123,14 +121,13 @@ model Booking {
   guestName             String
   guestEmail            String
   guestNotes            String?
-  startTime             DateTime // UTC datetime
-  endTime               DateTime // UTC datetime
+  startTime             DateTime
+  endTime               DateTime
   status                BookingStatus @default(CONFIRMED)
   googleCalendarEventId String?
 
   eventType EventType @relation(fields: [eventTypeId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
-
   updatedAt DateTime @updatedAt
 }
