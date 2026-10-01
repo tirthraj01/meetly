@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+
 export const eventTypeSchema = z.object({
   title: z
     .string()

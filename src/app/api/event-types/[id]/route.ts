@@ -4,9 +4,11 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { eventTypeSchema } from "@/lib/validations/event-type";
 
+
 interface RouteParams {
   params: Promise<{ id: string }>;
 }
+
 
 export async function PUT(req: Request, { params }: RouteParams) {
   try {

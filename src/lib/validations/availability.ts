@@ -1,7 +1,9 @@
 import { z } from "zod";
 import { DayOfWeek } from "@prisma/client";
 
+
 const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/; // Validates HH:mm format
+
 
 export const availabilityItemSchema = z
   .object({

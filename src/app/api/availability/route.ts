@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { updateAvailabilitySchema } from "@/lib/validations/availability";
 
+
 export async function GET() {
   try {
     const session = await auth();

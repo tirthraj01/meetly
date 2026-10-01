@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { eventTypeSchema } from "@/lib/validations/event-type";
 
+
 function slugify(text: string): string {
   return text
     .toLowerCase()
