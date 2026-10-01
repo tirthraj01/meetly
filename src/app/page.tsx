@@ -10,7 +10,9 @@ import { auth, signIn, signOut } from "@/auth";
           <div className="flex flex-col items-center gap-4">
             <p>Welcome, <strong>{session.user.name}</strong> ({session.user.email})</p>
             {session.user.image && (
+
               <img src={session.user.image} alt="User Avatar" className="w-16 h-16 rounded-full" />
+              
             )}
             <form action={async () => {
               "use server";
